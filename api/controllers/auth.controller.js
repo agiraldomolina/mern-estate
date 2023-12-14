@@ -21,10 +21,7 @@ export const signin=async(req,res,next)=>{
         const validUser = await User.findOne({ email });
         if (!email || !password)  return next(errorHandler(404, 'Please provide email and password'));
         
-        if(!validUser || !bcryptjs.compareSync(password, validUser.password)) return next(errorHandler (404, 'Invalid credentials')) ;
-
-        // const validPassword = bcryptjs.compareSync(password, validUser.password);
-        // if(!validPassword) return next(errorHandler (401, 'Invalid credentials'));
+        if(!validUser || !await validUser.correctPassword(password,validUser.password)) return next(errorHandler (404, 'Invalid credentials')) ;
         const token = jwt.sign({ _id: validUser._id }, process.env.JWT_SECRET);
         const {password: pass, ...rest} = validUser._doc;
         res.cookie('access_token', token, {httpOnly: true})

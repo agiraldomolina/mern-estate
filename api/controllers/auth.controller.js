@@ -19,8 +19,7 @@ export const signin=async(req,res,next)=>{
     const { email, password } = req.body;
     try {
         const validUser = await User.findOne({ email });
-        if (!email || !password)  return next(errorHandler(404, 'Please provide email and password'));
-        
+        if (!email || !password)  return next(errorHandler(404, 'Please provide email and password'));  
         if(!validUser || !await validUser.correctPassword(password,validUser.password)) return next(errorHandler (404, 'Invalid credentials')) ;
         const token = jwt.sign({ _id: validUser._id }, process.env.JWT_SECRET);
         const {password: pass, ...rest} = validUser._doc;

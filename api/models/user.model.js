@@ -15,8 +15,11 @@ const userSchema = new mongoose.Schema({
      password: {
         type: String,
         required: [true, 'Please provide your password'],
-     }
-   
+     },
+     avatar: {
+        type: String,
+        default: 'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper.png'
+     },  
 });
 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {

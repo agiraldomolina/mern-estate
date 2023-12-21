@@ -44,7 +44,7 @@ export const google = async (req, res, next) => {
       }else {
         const generatedPassword = Math.random().toString(36).slice(-8)+Math.random().toString(36).slice(-8);
         const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-        const newUser = new User({ username: req.body.name.split(' ').join('').toLowerCase() + Math.randon().toString(36).slice(-4), email: req.body.email, password:hashedPassword, avatar: req.body.photo });
+        const newUser = new User({ username: req.body.name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password:hashedPassword, avatar: req.body.photo });
         await newUser.save();
         console.log(newUser);
         const token = jwt.sign({ _id: newUser._id}, process.env.JWT_SECRET);
@@ -54,4 +54,14 @@ export const google = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+export const signOut = async (req, res, next) => {
+  //if (req.user._id!== req.params.id) return next(errorHandler(401, 'You can only logout your own account!'));
+  try {
+      res.clearCookie('access_token');
+      res.status(200).json('User has been logged out!');      
+  } catch (error) {
+      next(error)
+  }
 }

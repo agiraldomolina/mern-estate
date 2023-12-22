@@ -9,7 +9,7 @@ export const verifyToken =  (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) return next(errorHandler(403, 'Forbbiden'));
         req.user =user;
-        console.log("user from the verifyUser: " + JSON.stringify(user));
+        // console.log("user from the verifyUser: " + JSON.stringify(user));
         next();
     });
 }

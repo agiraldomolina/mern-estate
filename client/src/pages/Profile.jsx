@@ -38,7 +38,9 @@ export default function Profile() {
   const dispatch = useDispatch();
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [ showListingsError, setShowListingsError] = useState(false);
-  const [ userListings, setUserListing] = useState([]);
+  const [ userListings, setUserLintings] = useState([]);
+  const [ listingDeleteError, setListingDeleteError] = useState(false);
+
   //console.log(formData);
   // console.log(filePerc);
   // console.log(fileUploadError);
@@ -140,9 +142,25 @@ export default function Profile() {
         setShowListingsError(true);
         return;
       }
-      setUserListing(data)
+      setUserLintings(data)
     } catch (error) {
       setShowListingsError(true);
+    }
+  }
+
+  const handleListingDelete = async(listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setListingDeleteError('Could not delete listing');
+        return;
+      }
+      setUserLintings((prev) => prev.filter((listing) => listing._id!== listingId));
+    } catch (error) {
+      setListingDeleteError('Listing deleted failed');
     }
   }
 
@@ -258,12 +276,10 @@ export default function Profile() {
         className="text-red-700 mt-5 text-center " 
       >
         {showListingsError? 'Error showing listings' :''}
-      </p>
-      
+      </p>     
       {userListings &&  userListings.length > 0 &&
       <div className="flex flex-col gap-4">
         <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings</h1>
-
         {userListings.map((listings, index)=> (
           <div
             key={index}
@@ -283,17 +299,28 @@ export default function Profile() {
               <p>{listings.name}</p>
             </Link>
             <div className="flex flex-col items-center">
-              <button className="text-red-700 uppercase">Delete</button>
+              <button
+                onClick={() => handleListingDelete(listings._id)}
+                className="text-red-700 uppercase"
+              >
+                Delete
+              </button>
               <button className="text-green-700 uppercase">Edit</button>
 
             </div>
 
           </div>
 
-        ))
-      
+        ))     
        }
-      </div>}
+      </div>
+      }
+      
+      <p
+        className="text-red-700 mt-5 text-center " 
+      >
+        {listingDeleteError? listingDeleteError :''}
+      </p>
     </div>
   )
 }

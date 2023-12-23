@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export default function Contact({listing}) {
     const [Landlord, setLandlord] = useState(null);
     const [ message, setMessage ] = useState(' ');
-   // const [ error, setError ] = useState(false);
 
    const onChange = (e) => {
     setMessage(e.target.value)

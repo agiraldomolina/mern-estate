@@ -16,9 +16,6 @@ import {
   signOutUserFailure,
  } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
-import { hash } from "bcryptjs";
-
-
 
 // firebase storage
 // allow write: if
@@ -285,7 +282,7 @@ export default function Profile() {
             key={index}
             className="border p-3 rounded-lg flex  justify-between items-center gap-4"
           >
-            <Link to={`/listings/${listings._id}`} className="text-blue-700">
+            <Link to={`/listing/${listings._id}`} className="text-blue-700">
               <img 
                 src={listings.imageUrls[0]} 
                 alt="listing cover" 
@@ -294,7 +291,7 @@ export default function Profile() {
             </Link>
             <Link
               className="flex-1 text'slate-700 font-semibold hover:underline truncate"
-              to={`/listings/${listings._id}`}
+              to={`/listing/${listings._id}`}
             >
               <p>{listings.name}</p>
             </Link>

@@ -33,17 +33,17 @@ export const getListings = catchAsync(async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
     let offer = req.query.offer;
-    if (offer === undefined) {
+    if (offer === undefined || offer === 'false') {
         offer = { $in: [false, true] };
     }
 
     let furnished = req.query.furnished;
-    if (furnished === undefined) {
+    if (furnished === undefined || furnished === 'false') {
         furnished = { $in: [false, true] };
     }
 
     let parking = req.query.parking;
-    if (parking === undefined) {
+    if (parking === undefined || parking === 'false') {
         parking = { $in: [false, true] };
     }
 

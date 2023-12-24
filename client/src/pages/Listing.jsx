@@ -120,14 +120,36 @@ export default function Listing() {
                         {listing.furnished ? 'Furnished' : 'Unfurnished'}
                     </li>
                 </ul>
-                {currentUser && listing.userRef !== currentUser._id  && !contact &&(
+                    {/* si */}
+
+                {/* {(currentUser && listing.userRef !== currentUser._id  && !contact) || (currentUser === null) &&(
                 <button
-                    onClick={() => setContact(true)} 
-                    className="bg-slate-700 text-white rounded-lg uppercase hover: opacity-90 p-3"
-                >
-                    Contact Landlord
-                </button>
-                )}
+                onClick={() => setContact(true)}
+                className={`bg-slate-700 text-white rounded-lg uppercase p-3 ${
+                    currentUser === null ? "cursor-not-allowed opacity-50" : "hover:opacity-90 hover:empty:"
+                }`}
+                disabled={currentUser === null}
+                title={currentUser === null ? "Inicia sesión para contactar al propietario" : ""}
+            >
+                Contact Landlord
+            </button>
+    
+                )} */}
+
+            
+            {(currentUser && listing.userRef !== currentUser._id && !contact) || currentUser === null ? (
+                        <button
+                            onClick={() => setContact(true)}
+                            className={`bg-slate-700 text-white rounded-lg uppercase p-3 ${
+                                currentUser === null ? "cursor-not-allowed opacity-50" : "hover:opacity-90 hover:empty:"
+                            }`}
+                            disabled={currentUser === null}
+                            title={currentUser === null ? "Please log in to contact the owner" : ""}
+                        >
+                            Contact Landlord
+                        </button>
+                    ) : null}
+
                 {contact && <Contact listing={listing}/>}
             </div>
             </>

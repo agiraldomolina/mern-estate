@@ -38,7 +38,6 @@ export const google = catchAsync(async (req, res, next) => {
     const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
     const newUser = new User({ username: req.body.name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-4), email: req.body.email, password:hashedPassword, avatar: req.body.photo });
     await newUser.save();
-    console.log(newUser);
     const token = jwt.sign({ _id: newUser._id}, process.env.JWT_SECRET);
     const {password: pass,...rest} = newUser._doc;
     res.cookie('access_token', token, {httpOnly: true}).status(200).json(rest);

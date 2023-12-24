@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export default function Contact({listing}) {
     const [Landlord, setLandlord] = useState(null);
     const [ message, setMessage ] = useState(' ');
+    console.log(Landlord);
 
    const onChange = (e) => {
     setMessage(e.target.value)
@@ -14,8 +15,8 @@ export default function Contact({listing}) {
             try {
                 const res = await fetch(`/api/user/${listing.userRef}`);
                 const data = await res.json();
+                console.log(data);
                 setLandlord(data);
-                setError(false)
             } catch (error) {
                 console.log(error);
             }
@@ -27,9 +28,9 @@ export default function Contact({listing}) {
     <>
     {Landlord && (
         <div className="flex flex-col gap-2">
-            <p>Contact 
+            <p>Contact {' '}
                 <span className="font-semibold">{Landlord.username}</span>
-                 for 
+                 for {' '}
                 <span className="font-semibold">{listing.name.toLowerCase()}</span>
             </p>
             <textarea 

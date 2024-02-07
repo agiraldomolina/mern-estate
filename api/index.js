@@ -6,6 +6,7 @@ import authRouter from './routes/auth.route.js';
 import listingRouter from './routes/listing.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import cors from 'cors';
 dotenv.config();
 
 mongoose.connect(process.env.MONGO).then(() => {
@@ -15,6 +16,16 @@ mongoose.connect(process.env.MONGO).then(() => {
 })
 
 const __dirname = path.resolve();
+
+const cors = require('cors');
+
+// Allow all origins
+app.use(cors());
+
+// Allow specific origin(s)
+app.use(cors({
+  origin: 'https://mern-estate-frontend-teal.vercel.app/'
+}));
 
 
 const app = express();
